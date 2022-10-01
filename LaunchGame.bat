@@ -1,0 +1,1 @@
+"C:\Program Files\Epic Games\UE_5.0\Engine\Binaries\Win64\UnrealEditor.exe" "D:\Dev\_Unreal5\Ex_Cpp_Multiplayer\Ex_Cpp_Multiplayer.uproject" -game -Windowed -ResX=800 -ResY=600 -WinX=10 -WinY=20 -log
