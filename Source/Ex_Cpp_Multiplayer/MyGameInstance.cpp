@@ -17,6 +17,8 @@ void UMyGameInstance::Init()
 {
 	if (const IOnlineSubsystem* Subsystem = IOnlineSubsystem::Get())
 	{
+		UE_LOG(LogMyGame, Display, TEXT("[OnlineSubsystem] name='%s'"), *Subsystem->GetSubsystemName().ToString());
+		
 		SessionInterface = Subsystem->GetSessionInterface();
 		if (!SessionInterface.IsValid())
 		{
