@@ -3,6 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "LobbyPlayerInfo.h"
+#include "PlayerListEntryWidget.h"
 #include "Blueprint/UserWidget.h"
 #include "LobbyWidget.generated.h"
 
@@ -13,9 +15,19 @@ UCLASS()
 class EX_CPP_MULTIPLAYER_API ULobbyWidget : public UUserWidget
 {
 	GENERATED_BODY()
+public:
+	UFUNCTION(BlueprintCallable)
+	virtual void Update(const TArray<FLobbyPlayerInfo>& PlayerInfos);
+	
 protected:
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UPlayerListEntryWidget> PlayerListEntryWidgetClass;
+	
 	UPROPERTY(meta=(BindWidget))
 	class UButton* BackBtn;
+
+	UPROPERTY(meta=(BindWidget))
+	class UVerticalBox* PlayerListContainer;
 
 	virtual void NativeConstruct() override;
 

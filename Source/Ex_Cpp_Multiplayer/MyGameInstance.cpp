@@ -4,6 +4,7 @@
 
 #include "Ex_Cpp_Multiplayer.h"
 #include "OnlineSessionSettings.h"
+#include "Interfaces/OnlineIdentityInterface.h"
 #include "Interfaces/OnlineSessionInterface.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -26,6 +27,12 @@ void UMyGameInstance::Init()
 		SessionInterface->OnDestroySessionCompleteDelegates.AddUObject(this, &UMyGameInstance::OnSessionDestroyComplete);
 		SessionInterface->OnFindSessionsCompleteDelegates.AddUObject(this, &UMyGameInstance::OnFindSessionsComplete);
 		SessionInterface->OnJoinSessionCompleteDelegates.AddUObject(this, &UMyGameInstance::OnJoinSessionComplete);
+
+		IdentityInterface = Subsystem->GetIdentityInterface();
+		if (!IdentityInterface.IsValid())
+		{
+			UE_LOG(LogMyGame, Error, TEXT("Failed to get Online Identity Interface!"));
+		}
 	}
 	else
 	{
@@ -77,6 +84,11 @@ void UMyGameInstance::LeaveServer() const
 	{
 		SessionInterface->DestroySession(ActiveSessionName);
 	}
+}
+
+FString UMyGameInstance::GetOnlineDisplayName() const
+{
+	return IdentityInterface->GetPlayerNickname(0);
 }
 
 void UMyGameInstance::OnSessionCreateComplete(const FName SessionName, const bool Success)
@@ -147,7 +159,7 @@ void UMyGameInstance::OnJoinSessionComplete(const FName SessionName, const EOnJo
 	auto* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
 	FString TravelUrl;
 	if (PlayerController && SessionInterface->GetResolvedConnectString(SessionName, TravelUrl))
-	{		
+	{
 		UE_LOG(LogMyGame, Display, TEXT("TravelUrl=<%s>"), *TravelUrl);
 		PlayerController->ClientTravel(TravelUrl, TRAVEL_Absolute);
 	}

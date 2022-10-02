@@ -24,8 +24,11 @@ public:
 
 	void LeaveServer() const;
 
+	FString GetOnlineDisplayName() const;
+
 protected:
 	IOnlineSessionPtr SessionInterface = nullptr;
+	IOnlineIdentityPtr IdentityInterface = nullptr;
 
 	TSharedPtr<class FOnlineSessionSearch> SearchSettings;
 
