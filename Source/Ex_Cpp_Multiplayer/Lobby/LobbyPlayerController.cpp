@@ -16,7 +16,6 @@ void ALobbyPlayerController::BeginPlay()
 	if (IsLocalController())
 	{
 		PlayerInfo.DisplayName = GetGameInstance<UMyGameInstance>()->GetOnlineDisplayName();
-		// PlayerInfo.DisplayName = PlayerState->GetPlayerName();
 
 		ClientRPCCreateWidgets();
 		ServerRPCOnPCReady(PlayerInfo);
@@ -48,4 +47,12 @@ void ALobbyPlayerController::ServerRPCOnPCReady_Implementation(const FLobbyPlaye
 
 	auto* GameMode = Cast<ALobbyGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
 	GameMode->OnPCReady(this);
+}
+
+void ALobbyPlayerController::ServerRPCSetClientIsReady_Implementation(bool bIsReady)
+{
+	PlayerInfo.IsReady = bIsReady;
+
+	auto* GameMode = Cast<ALobbyGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
+	GameMode->UpdateClientLobbyWidgets();
 }

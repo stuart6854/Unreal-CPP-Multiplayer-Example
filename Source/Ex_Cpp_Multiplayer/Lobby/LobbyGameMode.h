@@ -18,6 +18,8 @@ class EX_CPP_MULTIPLAYER_API ALobbyGameMode : public AGameMode
 public:
 	virtual void OnPCReady(ALobbyPlayerController* PlayerController);
 
+	virtual void UpdateClientLobbyWidgets();
+	
 protected:
 	TArray<ALobbyPlayerController*> ConnectedPlayers;
 	TArray<FLobbyPlayerInfo> ConnectedPlayerInfos;

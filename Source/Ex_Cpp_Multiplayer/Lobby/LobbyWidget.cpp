@@ -3,6 +3,7 @@
 
 #include "LobbyWidget.h"
 
+#include "LobbyPlayerController.h"
 #include "PlayerListEntryWidget.h"
 #include "Ex_Cpp_Multiplayer/Ex_Cpp_Multiplayer.h"
 #include "Components/Button.h"
@@ -27,9 +28,25 @@ void ULobbyWidget::NativeConstruct()
 	Super::NativeConstruct();
 
 	BackBtn->OnClicked.AddUniqueDynamic(this, &ULobbyWidget::OnBackBtn);
+
+	ReadyBeginBtn->OnClicked.AddUniqueDynamic(this, &ULobbyWidget::OnReadyBegin);
 }
 
 void ULobbyWidget::OnBackBtn()
 {
 	GetGameInstance<UMyGameInstance>()->LeaveServer();
+}
+
+void ULobbyWidget::OnReadyBegin()
+{
+	if (GetOwningPlayer()->IsNetMode(NM_ListenServer))
+	{
+		// Host
+	}
+	else if (GetOwningPlayer()->IsNetMode(NM_Client))
+	{
+		// Client
+		auto* PC = GetOwningPlayer<ALobbyPlayerController>();
+		PC->SetIsReady(!PC->GetIsReady());
+	}
 }

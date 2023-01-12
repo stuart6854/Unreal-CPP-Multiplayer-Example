@@ -9,6 +9,11 @@ void ALobbyGameMode::OnPCReady(ALobbyPlayerController* PlayerController)
 {
 	ConnectedPlayers.Add(PlayerController);
 
+	UpdateClientLobbyWidgets();
+}
+
+void ALobbyGameMode::UpdateClientLobbyWidgets()
+{
 	ConnectedPlayerInfos.Empty();
 	for (auto* Player : ConnectedPlayers)
 	{
@@ -18,8 +23,6 @@ void ALobbyGameMode::OnPCReady(ALobbyPlayerController* PlayerController)
 	// Update all client Lobby widgets
 	for (auto* Player : ConnectedPlayers)
 	{
-		UE_LOG(LogMyGame, Display, TEXT("[GameMode] ConnectedPlayerInfos - %i"), ConnectedPlayerInfos.Num());
-
 		Player->ClientRPCUpdateLobbyWidget(ConnectedPlayerInfos);
 	}
 }
@@ -32,10 +35,6 @@ void ALobbyGameMode::OnPostLogin(AController* NewPlayer)
 	const FString PlayerName = PlayerState->GetPlayerName();
 
 	UE_LOG(LogMyGame, Display, TEXT("[GameMode] OnPostLogin - %s"), *PlayerName);
-
-	// auto* LobbyPC = Cast<ALobbyPlayerController>(NewPlayer);
-	// ConnectedPlayers.Add(LobbyPC);
-	// ConnectedPlayerInfos.Add(LobbyPC->GetPlayerInfo());
 }
 
 void ALobbyGameMode::Logout(AController* Exiting)

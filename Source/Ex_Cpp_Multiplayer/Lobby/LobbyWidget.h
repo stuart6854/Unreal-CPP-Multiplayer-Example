@@ -29,8 +29,14 @@ protected:
 	UPROPERTY(meta=(BindWidget))
 	class UVerticalBox* PlayerListContainer;
 
+	UPROPERTY(meta=(BindWidget))
+	class UButton* ReadyBeginBtn;
+		
 	virtual void NativeConstruct() override;
 
 	UFUNCTION()
 	virtual void OnBackBtn();
+
+	UFUNCTION()
+	virtual void OnReadyBegin();
 };
